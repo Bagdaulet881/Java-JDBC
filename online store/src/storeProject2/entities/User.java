@@ -8,7 +8,7 @@ public class User {
     private String surname;
     private String login;
     private String password;
-    private int orders[];
+    private String orders[];
     
 
     public User() {
@@ -22,14 +22,14 @@ public class User {
         setPassword(password);
        
     }
-    public User(int id, String name, String surname, String login, String password, int[] orders) {
+    public User(int id, String name, String surname, String login, String password, String[] orders) {
     	setId(id);
     	setName(name);
         setSurname(surname);
         setLogin(login);
         setPassword(password);
         if(orders == null) {
-        	this.orders = new int[0];
+        	this.orders = new String[0];
         }else {
         	this.orders = orders;
         }
@@ -51,11 +51,11 @@ public class User {
 		this.password = password;
 	}
 
-	public int[] getOrders() {
+	public String[] getOrders() {
 		return orders;
 	}
 
-	public void setOrders(int[] orders) {
+	public void setOrders(String[] orders) {
 		this.orders = orders;
 	}
 

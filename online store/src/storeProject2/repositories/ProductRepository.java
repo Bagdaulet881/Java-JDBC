@@ -13,110 +13,129 @@ import storeProject2.entities.Product;
 import storeProject2.entities.User;
 import storeProject2.repositories.interfaces.IProductRepository;
 
-
 public class ProductRepository implements IProductRepository {
-	 private final IDB db;
+	private final IDB db;
 
-	    public ProductRepository(IDB db) {
-	        this.db = db;
-	    }
+	public ProductRepository(IDB db) {
+		this.db = db;
+	}
 
-		@Override
-		public boolean createProduct(Product prd) {
-			// TODO Auto-generated method stub
-			
-		 Connection con = null;
-	        try {
-	            con = db.getConnection();
-	            String sql = "INSERT INTO products(name,price) VALUES (?,?)";
-	            PreparedStatement st = con.prepareStatement(sql);
+	@Override
+	public boolean createProduct(Product prd) {
+		// TODO Auto-generated method stub
 
-	            st.setString(1, prd.getName());
-	            st.setInt(2, prd.getPrice());
+		Connection con = null;
+		try {
+			con = db.getConnection();
+			String sql = "INSERT INTO products(name,price) VALUES (?,?)";
+			PreparedStatement st = con.prepareStatement(sql);
+
+			st.setString(1, prd.getName());
+			st.setInt(2, prd.getPrice());
 //	           MAYBE error from setINT bcs bigint in table
 
-	            st.execute();
-	            return true;
-	        } catch (SQLException throwables) {
-	            throwables.printStackTrace();
-	        } catch (ClassNotFoundException e) {
-	            e.printStackTrace();
-	        } finally {
-	            try {
-	                con.close();
-	            } catch (SQLException throwables) {
-	                throwables.printStackTrace();
-	            }
-	        }
-	      
-			return false;
+			st.execute();
+			return true;
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException throwables) {
+				throwables.printStackTrace();
+			}
 		}
 
-		@Override
-		public Product getProduct(int id) {
-			 Connection con = null;
-		        try {
-		            con = db.getConnection();
-		            String sql = "SELECT product_id,name,price FROM products WHERE product_id=?";
-		            PreparedStatement st = con.prepareStatement(sql);
+		return false;
+	}
 
-		            st.setInt(1, id);
+	@Override
+	public Product getProduct(int id) {
+		Connection con = null;
+		try {
+			con = db.getConnection();
+			String sql = "SELECT product_id,name,price FROM products WHERE product_id=?";
+			PreparedStatement st = con.prepareStatement(sql);
 
-		            ResultSet rs = st.executeQuery();
-		            if (rs.next()) {
-		                Product prd = new Product(rs.getInt("product_id"),
-		                        rs.getString("name"),
-		                        rs.getInt("price"));
-		                       
+			st.setInt(1, id);
 
-		                return prd;
-		            }
-		        } catch (SQLException throwables) {
-		            throwables.printStackTrace();
-		        } catch (ClassNotFoundException e) {
-		            e.printStackTrace();
-		        } finally {
-		            try {
-		                con.close();
-		            } catch (SQLException throwables) {
-		                throwables.printStackTrace();
-		            }
-		        }
-		        return null;
+			ResultSet rs = st.executeQuery();
+			if (rs.next()) {
+				Product prd = new Product(rs.getInt("product_id"), rs.getString("name"), rs.getInt("price"));
+
+				return prd;
+			}
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException throwables) {
+				throwables.printStackTrace();
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public List<Product> getProducts() {
+		Connection con = null;
+		try {
+			con = db.getConnection();
+			String sql = "SELECT * FROM products";
+			Statement st = con.createStatement();
+
+			ResultSet rs = st.executeQuery(sql);
+			List<Product> prds = new LinkedList<>();
+			while (rs.next()) {
+				Product prd = new Product(rs.getInt("product_id"), rs.getString("name"), rs.getInt("price"));
+
+				prds.add(prd);
+			}
+
+			return prds;
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException throwables) {
+				throwables.printStackTrace();
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public boolean deleteProduct(int id) {
+		Connection con = null;
+		try {
+			con = db.getConnection();
+			String sql = "DELETE FROM products WHERE product_id=?";
+			PreparedStatement st = con.prepareStatement(sql);
+
+			st.setInt(1, id);
+			st.execute();
+			return true;
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException throwables) {
+				throwables.printStackTrace();
+			}
 		}
 
-		@Override
-		public List<Product> getProducts() {
-			 Connection con = null;
-		        try {
-		            con = db.getConnection();
-		            String sql = "SELECT * FROM products";
-		            Statement st = con.createStatement();
+		return false;
+	}
 
-		            ResultSet rs = st.executeQuery(sql);
-		            List<Product> prds = new LinkedList<>();
-		            while (rs.next()) {
-		                Product prd = new Product(rs.getInt("product_id"),
-		                        rs.getString("name"),
-		                        rs.getInt("price"));
-
-		                prds.add(prd);
-		            }
-
-		            return prds;
-		        } catch (SQLException throwables) {
-		            throwables.printStackTrace();
-		        } catch (ClassNotFoundException e) {
-		            e.printStackTrace();
-		        } finally {
-		            try {
-		                con.close();
-		            } catch (SQLException throwables) {
-		                throwables.printStackTrace();
-		            }
-		        }
-		        return null;
-		}
-
-	   
 }
