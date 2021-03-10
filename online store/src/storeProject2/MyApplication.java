@@ -61,6 +61,7 @@ public class MyApplication {
 		try {
 			System.out.print("Enter option (1-2): ");
 			int option = scanner.nextInt();
+//			auth menu for customer
 			if (option == 1) {
 				loginMenu("user");
 			} else if (option == 2) {
@@ -83,7 +84,7 @@ public class MyApplication {
 		String login = scanner.next();
 		System.out.println("Please enter password");
 		String password = scanner.next();
-
+//		making registration by type of user
 		if (type.equals("user")) {
 //    		creating user
 			String response = userController.createUser(name, surname, login, password);
@@ -101,7 +102,7 @@ public class MyApplication {
 		String login = scanner.next();
 		System.out.println("Password: ");
 		String pwd = scanner.next();
-
+//		making authentication by type of user
 		if (type.equals("admin")) {
 			if (login.equals("admin") && pwd.equals("root")) {
 				System.out.println("WELCOME BACK ADMIN");
@@ -212,7 +213,6 @@ public class MyApplication {
 		String name = userController.getCurrentUser().getName();
 		while (true) {
 			System.out.println();
-
 			System.out.println("Welcome, " + name);
 
 			System.out.println("Select option:");
@@ -269,6 +269,8 @@ public class MyApplication {
 	}
 
 	public int getIdFromUserInput(String msg) {
+//		method for getting int from user input with try catch
+//		created to avoid duplicate of codes
 		try {
 			System.out.print(msg);
 			System.out.println();
@@ -284,6 +286,7 @@ public class MyApplication {
 	}
 
 	public void getMyOrders() {
+//		getting client id of current user which saved in controller
 		int client_id = userController.getCurrentUser().getId();
 		System.out.println("Your Orders: ");
 		String ids[] = userController.getUserOrders(client_id);

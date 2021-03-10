@@ -10,7 +10,6 @@ public interface IOrderRepository {
 	 	boolean updateOrder(int id);
 	    Order getOrder(int id);
 	    List<Order> getOrders();
-	    
 	    List<Ship> getShipServices();
 	   
 }

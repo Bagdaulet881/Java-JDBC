@@ -32,8 +32,6 @@ public class ProductRepository implements IProductRepository {
 
 			st.setString(1, prd.getName());
 			st.setInt(2, prd.getPrice());
-//	           MAYBE error from setINT bcs bigint in table
-
 			st.execute();
 			return true;
 		} catch (SQLException throwables) {

@@ -7,55 +7,47 @@ public class Order {
 	private int product_id;
 	private String timeOrdered;
 	private boolean accepted;
-	
+
 	private String end_address;
-	
-
 	private String payment_method;
-   
-    
 
-    public Order() {
+	public Order() {
 
-    }
-
-   
-
-	public Order(int client_id,int ship_id,int product_id,String timeOrdered, String adrs, String paymnt) {
-       setClient_id(client_id);
-       setShip_id(ship_id);
-       setProduct_id(product_id);
-       setTimeOrdered(timeOrdered);
-       setAccepted(false);
-       setEnd_address(adrs);
-       setPayment_method(paymnt);
-       
-       
-    }
-    public Order(int order_id, int client_id,int ship_id,int product_id,boolean accepted, String timeOrdered,  String adrs, String paymnt) {
-    	setOrder_id(order_id);
-    	 setClient_id(client_id);
-         setShip_id(ship_id);
-         setProduct_id(product_id);
-         setTimeOrdered(timeOrdered);
-         setAccepted(accepted);
-         setEnd_address(adrs);
-         setPayment_method(paymnt);
-         
-    }
-    
-    @Override
-	public String toString() {
-    	String state = "waiting";
-    	if(accepted) {
-    		state = "accepted";
-    	}
-		return "Order Detail -> [order_id=" + order_id + ", STATE=" + state + ", client_id=" + client_id + ", ship_id=" + ship_id + ", product_id="
-				+ product_id + ", timeOrdered=" + timeOrdered + ", end_address="
-				+ end_address + ", payment_method=" + payment_method + "]" + "\n";
 	}
 
+	public Order(int client_id, int ship_id, int product_id, String timeOrdered, String adrs, String paymnt) {
+		setClient_id(client_id);
+		setShip_id(ship_id);
+		setProduct_id(product_id);
+		setTimeOrdered(timeOrdered);
+		setAccepted(false);
+		setEnd_address(adrs);
+		setPayment_method(paymnt);
+	}
 
+	public Order(int order_id, int client_id, int ship_id, int product_id, boolean accepted, String timeOrdered,
+			String adrs, String paymnt) {
+		setOrder_id(order_id);
+		setClient_id(client_id);
+		setShip_id(ship_id);
+		setProduct_id(product_id);
+		setTimeOrdered(timeOrdered);
+		setAccepted(accepted);
+		setEnd_address(adrs);
+		setPayment_method(paymnt);
+
+	}
+
+	@Override
+	public String toString() {
+		String state = "waiting";
+		if (accepted) {
+			state = "accepted";
+		}
+		return "Order Detail -> [order_id=" + order_id + ", STATE=" + state + ", client_id=" + client_id + ", ship_id="
+				+ ship_id + ", product_id=" + product_id + ", timeOrdered=" + timeOrdered + ", end_address="
+				+ end_address + ", payment_method=" + payment_method + "]" + "\n";
+	}
 
 	public int getOrder_id() {
 		return order_id;
@@ -104,24 +96,18 @@ public class Order {
 	public void setAccepted(boolean accepted) {
 		this.accepted = accepted;
 	}
-	
+
 	public String getEnd_address() {
 		return end_address;
 	}
-
-
 
 	public void setEnd_address(String end_address) {
 		this.end_address = end_address;
 	}
 
-
-
 	public String getPayment_method() {
 		return payment_method;
 	}
-
-
 
 	public void setPayment_method(String payment_method) {
 		this.payment_method = payment_method;

@@ -14,6 +14,8 @@ import storeProject2.entities.Order;
 import storeProject2.entities.Ship;
 import storeProject2.entities.User;
 import storeProject2.repositories.interfaces.IOrderRepository;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 
 public class OrderRepository implements IOrderRepository {
 	private final IDB db;
@@ -31,17 +33,19 @@ public class OrderRepository implements IOrderRepository {
 			con = db.getConnection();
 			String sql = "INSERT INTO orders(client_id, ship_id, product_id, accepted, time_ordered, end_address, payment_method) VALUES (?,?,?,?,?,?,?)";
 			PreparedStatement st = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-
+//			getting local date of order
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+			LocalDateTime now = LocalDateTime.now();
+//			setting data to db
 			st.setInt(1, rd.getClient_id());
 			st.setInt(2, rd.getShip_id());
 			st.setInt(3, rd.getProduct_id());
 			st.setBoolean(4, rd.isAccepted());
-			st.setString(5, rd.getTimeOrdered());
+			st.setString(5, dtf.format(now).toString());
 			st.setString(6, rd.getEnd_address());
 			st.setString(7, rd.getPayment_method());
-//           to find which row changed
+//           to find which row changed after commit to table
 			int affectedRows = st.executeUpdate();
-
 			if (affectedRows == 0) {
 				throw new SQLException("Updating user failed, no rows affected.");
 			}
@@ -107,6 +111,8 @@ public class OrderRepository implements IOrderRepository {
 		Connection con = null;
 		try {
 			con = db.getConnection();
+//			sorting data by accepted = false, if there 2 false then sorting with ordered id
+//			to show oldest orders which not accepted by salesman
 			String sql = "SELECT * FROM orders ORDER BY accepted ASC, CASE WHEN accepted THEN order_id END DESC";
 			Statement st = con.createStatement();
 

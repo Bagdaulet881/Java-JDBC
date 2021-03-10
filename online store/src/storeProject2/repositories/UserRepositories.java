@@ -58,9 +58,10 @@ public class UserRepositories implements IUserRepository {
 			if (rs.next()) {
 //				postgres array to Java array
 				Array a = rs.getArray("orders");
-				
+//				creatin empty array
 				String[] ord = new String[0];
 				if(a!=null) {
+//					null error handling
 					ord = (String[]) a.getArray();
 				}
 				User user = new User(rs.getInt("id"), rs.getString("name"), rs.getString("surname"),
@@ -122,9 +123,10 @@ public class UserRepositories implements IUserRepository {
 		Connection con = null;
 		try {
 			con = db.getConnection();
+//			updating clients order, adding new order by client id
 			String sql = "UPDATE customers SET orders = array_append(orders, ?) WHERE id = ?";
 			PreparedStatement st = con.prepareStatement(sql);
-
+//			int to string to save in String[] order
 			st.setString(1, String.valueOf(order_id));
 			st.setInt(2, client_id);
 
@@ -153,25 +155,20 @@ public class UserRepositories implements IUserRepository {
 			
 			String sql = "SELECT id,name,surname,password,orders FROM customers WHERE login=?";
 			PreparedStatement st = con.prepareStatement(sql);
-
 			st.setString(1, login);
-
 			ResultSet rs = st.executeQuery();
 		
 			if (rs.next()) {
-				
+//				getting password by user login
 				String pwd = rs.getString("password");
-				
-				if(pwd.equals(password)) {	
-					
+//				checking for correct password
+				if(pwd.equals(password)) {
 					Array a = rs.getArray("orders");
-					
 					String[] ord = new String[0];
 					if(a!=null) {
 						ord = (String[]) a.getArray();
 					}
-					
-					
+										
 					User user = new User(rs.getInt("id"), rs.getString("name"), rs.getString("surname"),
 							login, rs.getString("password"), ord);
 					
@@ -234,18 +231,11 @@ public class UserRepositories implements IUserRepository {
 			PreparedStatement st = con.prepareStatement(sql);
 
 			st.setString(1, login);
-
 			ResultSet rs = st.executeQuery();
 		
 			if (rs.next()) {
-				
-				String pwd = rs.getString("password");
-				
-				if(pwd.equals(password)) {	
-					
-					
-					
-					
+				String pwd = rs.getString("password");		
+				if(pwd.equals(password)) {				
 					User user = new User(rs.getString("name"), rs.getString("surname"),
 							login, rs.getString("password"));
 					

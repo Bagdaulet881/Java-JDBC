@@ -18,29 +18,27 @@ public class OrderController {
 	    
 	    
 	    public int createOrder(int client_id,int ship_id,int product_id,String timeOrdered, String adrs, String paymnt) {
-	        
 	        Order rd = new Order(client_id, ship_id, product_id, timeOrdered, adrs, paymnt);
-
 	        int createdOrderId = repo.createOrder(rd);
-
 	        return (createdOrderId);
 	    }
+
 	    public String updateOrder(int id) {
 	    	boolean updated = repo.updateOrder(id);
-
 			return (updated ? "Order ACCEPTED!" : "Order was NOT accepted!");
 		}
+
 	    public Order getOrder(int id) {
 			return repo.getOrder(id);
 		}
+	    
 	    public String getOrders() {
-			
 			List<Order> orders = repo.getOrders();
-
 			return orders.toString();
 		}
 	    
 	    public String getOrdersById(String[] ids) {
+//	    	getting clients orders, ids contains order ids of Customer
 	    	String response = "";
 			for (int i=0; i<ids.length; i++ ) {				
 				response += repo.getOrder(Integer.parseInt(ids[i])).toString();
